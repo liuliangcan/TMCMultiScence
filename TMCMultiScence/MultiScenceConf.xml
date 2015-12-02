@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <MultiScenceInputDir name = "./INPUTDIR1"></MultiScenceInputDir>
+    <MultiScenceInputDir name = "/B"></MultiScenceInputDir>
+    <MultiScenceOutputDir name = "./OUTPUTDIR"></MultiScenceOutputDir>
+    <MultiScenceLogDir name = "./LOGDIR"></MultiScenceLogDir>
+    <MultiScencebackupDir name = "./BACKUPDIR"></MultiScencebackupDir>
+    <MultiScenceThreadNum name = "2"></MultiScenceThreadNum>
+</root>
