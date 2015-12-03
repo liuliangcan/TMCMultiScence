@@ -21,7 +21,7 @@
     };-->
     <MultiScenceCustomScence name = "1" describe = "校园" conditions = "48"></MultiScenceCustomScence>
     <MultiScenceCustomScence name = "2" describe = "居民楼小区" conditions = "15"></MultiScenceCustomScence>
-    <MultiScenceCustomScence name = "3" describe = "商业区" conditions = "15"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "3" describe = "商业区" conditions = "15"></MultiScenceCustomScence> 
     <MultiScenceCustomScence name = "4" describe = "风景区" conditions = "15"></MultiScenceCustomScence>
     <MultiScenceCustomScence name = "5" describe = "地铁" conditions = "63"></MultiScenceCustomScence>
     <MultiScenceCustomScence name = "6" describe = "高铁" conditions = "15"></MultiScenceCustomScence>
