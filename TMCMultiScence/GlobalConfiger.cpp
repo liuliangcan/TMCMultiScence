@@ -62,6 +62,16 @@ int GlobalConfiger::Init(char * confXML)
         m_iThreadNum = atoi(cmxml.GetChildAttrib("name").c_str());        
     }
     cmxml.ResetMainPos();
+    if (cmxml.FindChildElem("MultiScenceEndBatchFile"))
+    {
+        m_uMultiScenceEndBatchFile = cmxml.GetChildAttrib("name");        
+    }
+    cmxml.ResetMainPos();
+    if (cmxml.FindChildElem("MultiScenceEndDelay"))
+    {
+        m_uMultiScenceEndDelay = atoi(cmxml.GetChildAttrib("name").c_str());        
+    }
+     ;    cmxml.ResetMainPos();
     std::map<int,int> m ;
     std::map<int,int>::iterator it_m;
     m.clear();    
@@ -230,6 +240,16 @@ unsigned int GlobalConfiger::GetUCustomScenceSize() const
 unsigned int* GlobalConfiger::GetUCustomScence() const
 {
     return m_uCustomScence;
+}
+
+std::string GlobalConfiger::GetUMultiScenceEndBatchFile() const
+{
+    return m_uMultiScenceEndBatchFile;
+}
+
+unsigned int GlobalConfiger::GetUMultiScenceEndDelay() const
+{
+    return m_uMultiScenceEndDelay;
 }
 
 

@@ -42,6 +42,8 @@ public:
     std::string GetOutputDir() const;
     unsigned int GetUCustomScenceSize() const;
     unsigned int* GetUCustomScence() const;
+    std::string GetUMultiScenceEndBatchFile() const;
+    unsigned int GetUMultiScenceEndDelay() const;
 private:
     //输入目录
     std::list<std::string> m_listInputDir;
@@ -58,6 +60,10 @@ private:
     unsigned int* m_uCustomScence;
     //自定义场景数组大小
     unsigned int m_uCustomScenceSize;
+    //经过多长延迟待处理队列为空且没有读到新文件，则认为本批次（天）处理完了
+    unsigned int m_uMultiScenceEndDelay;
+    //标记文件名
+    std::string m_uMultiScenceEndBatchFile;
     
     int check();
     //单例

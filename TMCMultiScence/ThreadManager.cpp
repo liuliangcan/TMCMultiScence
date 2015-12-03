@@ -159,6 +159,11 @@ int ThreadManager::Start()
     return 0;
 }
 
+    time_t lastdealtime = time(0);
+    time_t emptytime = time(0);
+    bool hasWriteEndFile = true;
+    int bDealing = 0;
+    
 THREAD_RETURN THREAD_PROC FileHandleProc(THREAD_PARAM param)
 {
     ThreadManager* pParam = (ThreadManager*)param;
@@ -172,24 +177,48 @@ THREAD_RETURN THREAD_PROC FileHandleProc(THREAD_PARAM param)
         {//检查m_qFilelist队列，如果为空，休息五秒，否则取出来一个文件进行处理
             
             pParam->GetFileList();
-            
+            if(pParam->m_qFilelist.empty())
+            {
+                emptytime = time(0);
+                unsigned int d_time = emptytime - lastdealtime;
+                if(!hasWriteEndFile && d_time > GlobalConfiger::GetInstance()->GetUMultiScenceEndDelay() && bDealing == 0)
+                {
+                    printf("这一批处理完了:0)\n");
+                    std::ofstream endfileout(GlobalConfiger::GetInstance()->GetUMultiScenceEndBatchFile().c_str());
+                    if(!endfileout.is_open())
+                    {
+                        LOG_ERROR("[FileHandleProc]批次处理结束标识文件打开失败");
+                    }
+                    endfileout << time(0);
+                    if(endfileout.is_open())endfileout.close();
+                    
+                    hasWriteEndFile = true;
+                }
+            }
             CPO_Leave(pParam->m_cpo_qFilelist);
             
             sleep(5);
         }
         else
         {
+            ++bDealing;
             file = pParam->m_qFilelist.front();
             pParam->m_qFilelist.pop();
             string tmpname = file + DEALING_TMP_STRING;
             rename(file.c_str(), tmpname.c_str());
             
+            lastdealtime = time(0);
+            hasWriteEndFile = false;
             CPO_Leave(pParam->m_cpo_qFilelist);
             sleep(0);
             
             LOG_NOTICE("[MultiScence]开始处理文件:%s",file.c_str());
             ms.SetSFile(file);
             ms.Process();
+            
+            CPO_Enter(pParam->m_cpo_qFilelist);
+            --bDealing;
+            CPO_Leave(pParam->m_cpo_qFilelist);
         }
     }
     

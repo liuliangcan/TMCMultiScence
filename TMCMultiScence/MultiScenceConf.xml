@@ -6,6 +6,10 @@
     <MultiScenceLogDir name = "./LOGDIR"></MultiScenceLogDir>
     <MultiScencebackupDir name = "./BACKUPDIR"></MultiScencebackupDir>
     <MultiScenceThreadNum name = "2"></MultiScenceThreadNum>
+    <!--批次处理结束标志文件-->
+    <MultiScenceEndBatchFile name = "./OUTPUTDIR/multiscenceend"></MultiScenceEndBatchFile>
+    <!--经过多长延迟待处理队列为空且没有读到新文件，则认为本批次（天）处理完了-->
+    <MultiScenceEndDelay name = "3600"></MultiScenceEndDelay>
     
     <!-- MultiScenceCustomScence为自定义的场景类型:
         从1-n（0为程序默认未识别）;
