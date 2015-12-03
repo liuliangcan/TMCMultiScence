@@ -302,66 +302,6 @@ int XDRScenceGroup::AnalysisScence()
             break;
         }
     }
-//    //高铁
-//    if(m_uHighSpeedCell * 100 > uFlag 
-//            && (childPro == OUTDOOR_QUICK || childPro == OUTDOOR_MID))
-//    {
-//        //SetAllScenceProperties(ScenceProperties.HIGHSPEED_ECI);
-//        scPro = HIGHSPEED_ECI;
-//    }    
-//    //居民区
-//    else if(m_uLivingCell * 100 > uFlag 
-//            && (ioPro == USER_INDOOR || childPro == OUTDOOR_SLOW))
-//    {
-//        //SetAllScenceProperties(ScenceProperties.LIVING_ECI);
-//         scPro = LIVING_ECI;
-//    }
-//    //商业区
-//    else if(m_uBussinessCell * 100 > uFlag 
-//            && (ioPro == USER_INDOOR || childPro == OUTDOOR_SLOW))
-//    {
-//        //SetAllScenceProperties(ScenceProperties.BUSSINESS_ECI);
-//        scPro = BUSSINESS_ECI;
-//    }
-//    //风景区
-//    else if(m_uScenicCell * 100 > uFlag 
-//            && (ioPro == USER_INDOOR || childPro == OUTDOOR_SLOW))
-//    {
-//        //SetAllScenceProperties(ScenceProperties.SCENIC_ECI);
-//        scPro = SCENIC_ECI;
-//    }
-//    //地铁
-//    else if(m_uSubwayCell * 100 > uFlag)
-//    {
-//        //SetAllScenceProperties(ScenceProperties.SUBWAY_ECI);
-//        scPro = SUBWAY_ECI;
-//    }
-//    //校园
-//    else if(m_uSchoolCell * 100 > uFlag 
-//       && (ioPro == USER_INDOOR || childPro == OUTDOOR_SLOW))
-//    {
-//        //SetAllScenceProperties(ScenceProperties.SCHOOL_ECI);
-//        scPro = SCHOOL_ECI;
-//    }
-//    //城区道路
-//    else if(m_uCityRoadCell * 100 > uFlag 
-//       && (ioPro == USER_OUTDOOR))
-//    {
-//        //SetAllScenceProperties(ScenceProperties.SCHOOL_ECI);
-//        scPro = CITYROAD_ECI;
-//    }
-//    //高速公路
-//    else if(m_uRoadHighSpeedCell * 100 > uFlag 
-//       && (childPro == OUTDOOR_QUICK || childPro == OUTDOOR_MID))
-//    {
-//        //SetAllScenceProperties(ScenceProperties.SCHOOL_ECI);
-//        scPro = ROADHIGHSPEED_ECI;
-//    }
-//    else
-//    {
-//        //SetAllScenceProperties(ScenceProperties.UNKNOWN_ECI);
-//        scPro = UNKNOWN_ECI;
-//    }
     return 0;
 }
 void XDRScenceGroup::setSize(unsigned int size)
