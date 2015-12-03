@@ -7,8 +7,11 @@
     <MultiScencebackupDir name = "./BACKUPDIR"></MultiScencebackupDir>
     <MultiScenceThreadNum name = "2"></MultiScenceThreadNum>
     
-    <!-- MultiScenceCustomScence为自定义的场景类型，从1-n（0为程序默认未识别），描述便于可读，条件为作为二级属性的前提，二进制求和方式得出-->
-    <!--尽量将出现频度高的小区写在前边-->
+    <!-- MultiScenceCustomScence为自定义的场景类型:
+        从1-n（0为程序默认未识别）;
+        描述便于可读;
+        条件为作为二级属性的前提, 二进制求和方式得出-->
+    <!--建议将出现频度高的小区写在前边-->
     <!--    //小区覆盖子属性
     enum CoveringChildProperties
     {
