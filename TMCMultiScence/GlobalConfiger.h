@@ -52,6 +52,8 @@ private:
     //线程数
     int m_iThreadNum;
     
+    unsigned int m_customScence;
+    
     int check();
     //单例
     static GlobalConfiger *m_instance_gc;
