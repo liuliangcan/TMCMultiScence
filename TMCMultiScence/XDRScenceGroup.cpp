@@ -283,7 +283,7 @@ int XDRScenceGroup::SetAllProperties()
         (m_GroupStartPtr + i)->additional_part.cCoveringProperties = ioPro;
         (m_GroupStartPtr + i)->additional_part.cCoveringChildProperties=childPro;
         (m_GroupStartPtr + i)->additional_part.cScenceProperties = scPro;
-        (m_GroupStartPtr + i)->additional_part.nSpeed = (int)this->nSpeed;
+        (m_GroupStartPtr + i)->additional_part.nSpeed = this->nSpeed;
     }
     return 0;
 }

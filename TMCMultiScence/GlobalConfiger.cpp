@@ -118,7 +118,7 @@ int GlobalConfiger::Init(char * confXML)
         m_uCustomScence[i] = it_m->second;
     }
     
-    int ret =check();
+    int ret = check();
     if(ret < 0)return -1;
     return 0;
 }

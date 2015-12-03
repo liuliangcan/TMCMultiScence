@@ -183,13 +183,15 @@ THREAD_RETURN THREAD_PROC FileHandleProc(THREAD_PARAM param)
                 unsigned int d_time = emptytime - lastdealtime;
                 if(!hasWriteEndFile && d_time > GlobalConfiger::GetInstance()->GetUMultiScenceEndDelay() && bDealing == 0)
                 {
-                    printf("这一批处理完了:0)\n");
+                    int batchover = (int)time(0);
+                    printf("这一批处理完了[%d]\n", batchover);
+                    LOG_NOTICE("[FileHandleProc]批次处理结束[%d]", batchover);
                     std::ofstream endfileout(GlobalConfiger::GetInstance()->GetUMultiScenceEndBatchFile().c_str());
                     if(!endfileout.is_open())
                     {
                         LOG_ERROR("[FileHandleProc]批次处理结束标识文件打开失败");
                     }
-                    endfileout << time(0);
+                    endfileout << batchover;
                     if(endfileout.is_open())endfileout.close();
                     
                     hasWriteEndFile = true;
@@ -202,7 +204,7 @@ THREAD_RETURN THREAD_PROC FileHandleProc(THREAD_PARAM param)
         else
         {
             ++bDealing;
-            file = pParam->m_qFilelist.front();
+            file = pParam->m_qFilelist.front();           
             pParam->m_qFilelist.pop();
             string tmpname = file + DEALING_TMP_STRING;
             rename(file.c_str(), tmpname.c_str());
