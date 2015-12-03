@@ -6,4 +6,12 @@
     <MultiScenceLogDir name = "./LOGDIR"></MultiScenceLogDir>
     <MultiScencebackupDir name = "./BACKUPDIR"></MultiScencebackupDir>
     <MultiScenceThreadNum name = "2"></MultiScenceThreadNum>
+    <MultiScenceCustomScence name = "1" describe = "校园小区"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "2" describe = "居民楼小区"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "3" describe = "商业区"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "4" describe = "风景区"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "5" describe = "地铁"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "6" describe = "高铁"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "7" describe = "城区道路"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "8" describe = "高速公路"></MultiScenceCustomScence>
 </root>

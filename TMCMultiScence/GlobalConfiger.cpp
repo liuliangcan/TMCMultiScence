@@ -22,12 +22,14 @@ GlobalConfiger::GlobalConfiger(const GlobalConfiger& orig)
 
 GlobalConfiger::~GlobalConfiger()
 {
+    if(m_uCustomScence == NULL)delete[]m_uCustomScence;
 }
 
 int GlobalConfiger::Init(char * confXML)
 {
     m_iThreadNum = 0;
-    
+    m_uCustomScence = NULL;
+    m_uCustomScenceSize = 0;
     CMarkup cmxml;
     bool b = cmxml.Load(confXML);  
     if(!b)

@@ -52,7 +52,10 @@ private:
     //线程数
     int m_iThreadNum;
     
-    unsigned int m_customScence;
+    //自定义场景数组指针
+    unsigned int* m_uCustomScence;
+    //自定义场景数组大小
+    unsigned int m_uCustomScenceSize;
     
     int check();
     //单例
