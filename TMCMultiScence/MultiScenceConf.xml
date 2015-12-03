@@ -4,7 +4,7 @@
     <MultiScenceInputDir name = "/B"></MultiScenceInputDir>
     <MultiScenceOutputDir name = "./OUTPUTDIR"></MultiScenceOutputDir>
     <MultiScenceLogDir name = "./LOGDIR"></MultiScenceLogDir>
-    <MultiScencebackupDir name = "./BACKUPDIR"></MultiScencebackupDir>
+    <MultiScenceBackupDir name = "./BACKUPDIR"></MultiScenceBackupDir>
     <MultiScenceThreadNum name = "2"></MultiScenceThreadNum>
     <!--批次处理结束标志文件-->
     <MultiScenceEndBatchFile name = "./OUTPUTDIR/multiscenceend"></MultiScenceEndBatchFile>
