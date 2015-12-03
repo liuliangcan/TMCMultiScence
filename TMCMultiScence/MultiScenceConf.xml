@@ -6,12 +6,25 @@
     <MultiScenceLogDir name = "./LOGDIR"></MultiScenceLogDir>
     <MultiScencebackupDir name = "./BACKUPDIR"></MultiScencebackupDir>
     <MultiScenceThreadNum name = "2"></MultiScenceThreadNum>
-    <MultiScenceCustomScence name = "1" describe = "校园小区"></MultiScenceCustomScence>
-    <MultiScenceCustomScence name = "2" describe = "居民楼小区"></MultiScenceCustomScence>
-    <MultiScenceCustomScence name = "3" describe = "商业区"></MultiScenceCustomScence>
-    <MultiScenceCustomScence name = "4" describe = "风景区"></MultiScenceCustomScence>
-    <MultiScenceCustomScence name = "5" describe = "地铁"></MultiScenceCustomScence>
-    <MultiScenceCustomScence name = "6" describe = "高铁"></MultiScenceCustomScence>
-    <MultiScenceCustomScence name = "7" describe = "城区道路"></MultiScenceCustomScence>
-    <MultiScenceCustomScence name = "8" describe = "高速公路"></MultiScenceCustomScence>
+    
+    <!-- MultiScenceCustomScence为自定义的场景类型，从1-n（0为程序默认未识别），描述便于可读，条件为作为二级属性的前提，二进制求和方式得出-->
+    <!--尽量将出现频度高的小区写在前边-->
+    <!--    //小区覆盖子属性
+    enum CoveringChildProperties
+    {
+        INDOOR_HOME = 1,            //占用室分的室内稳定用户（有室分）
+        INDOOR_OUT = 2,             //占用宏站的室内稳定用户（无室分）
+        INDOOR_HOME_OUT = 4,        //室内稳定用户（占用宏站和室分）
+        OUTDOOR_SLOW = 8,           //室外低速用户（速度在20公里/小时）
+        OUTDOOR_MID = 16,            //室外中速用户（20~60公里/小时）
+        OUTDOOR_QUICK = 32           //室外高速用户（20~60公里/小时）
+    };-->
+    <MultiScenceCustomScence name = "1" describe = "校园" conditions = "48"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "2" describe = "居民楼小区" conditions = "15"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "3" describe = "商业区" conditions = "15"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "4" describe = "风景区" conditions = "15"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "5" describe = "地铁" conditions = "63"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "6" describe = "高铁" conditions = "15"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "7" describe = "城区道路" conditions = "56"></MultiScenceCustomScence>
+    <MultiScenceCustomScence name = "8" describe = "高速公路" conditions = "48"></MultiScenceCustomScence>
 </root>

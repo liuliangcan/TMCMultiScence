@@ -11,20 +11,26 @@
 #include "tools/log.h"
 #include "XDRUserGroup.h"
 #include "MultiScence.h"
+#include "GlobalConfiger.h"
 
 
 XDRScenceGroup::XDRScenceGroup()
 {
     m_lastChildPro = INDOOR_HOME;
     m_lastLaterTime = 0;
+    m_uCustomScenceSize = GlobalConfiger::GetInstance()->GetUCustomScenceSize();
+    m_uCustomScence = new unsigned int[m_uCustomScenceSize];
+    
 }
 
 XDRScenceGroup::XDRScenceGroup(const XDRScenceGroup& orig)
 {
+    
 }
 
 XDRScenceGroup::~XDRScenceGroup()
 {
+    if(m_uCustomScence != NULL) delete[]m_uCustomScence;
 }
 void XDRScenceGroup::Init(XDRUserGroup* xdrug)
 {
@@ -41,18 +47,23 @@ void XDRScenceGroup::set(unsigned int GroupID, st_XDR_INFO* GroupStartPtr, unsig
     nSpeed = 0.0;
     ioPro = USER_INDOOR;
     childPro = INDOOR_HOME;
-    scPro = UNKNOWN_ECI;
+    scPro = 0;
     m_uCellIndoor = 0;
     m_uCellOutdoor = 0;
-    m_uUnknownCell = 0;
-    m_uSchoolCell = 0;
-    m_uLivingCell = 0;
-    m_uBussinessCell = 0;
-    m_uScenicCell = 0;
-    m_uSubwayCell = 0;
-    m_uHighSpeedCell = 0;    
-    m_uCityRoadCell = 0;    
-    m_uRoadHighSpeedCell = 0; 
+    
+    for(int i = 0;i < m_uCustomScenceSize;++i)
+    {
+        m_uCustomScence[i] = 0;
+    }
+//    m_uUnknownCell = 0;
+//    m_uSchoolCell = 0;
+//    m_uLivingCell = 0;
+//    m_uBussinessCell = 0;
+//    m_uScenicCell = 0;
+//    m_uSubwayCell = 0;
+//    m_uHighSpeedCell = 0;    
+//    m_uCityRoadCell = 0;    
+//    m_uRoadHighSpeedCell = 0; 
     m_uTotalTime = 0;
     m_fTotalDistance = 0;
 }
@@ -84,50 +95,11 @@ void XDRScenceGroup::readOne(st_XDR_INFO* pXDR)
         }
     }
     //统计场景属性时长
-    switch (pXDR->additional_part.cCellScenceProperties)
+    for(int i = 1; i < m_uCustomScenceSize;++i)
     {
-        case HIGHSPEED_ECI:
-        {//高铁
-            m_uHighSpeedCell += pXDR->additional_part.nTimeLength;
-            break;
-        }
-        case SCHOOL_ECI:
-        {//校园
-            m_uSchoolCell += pXDR->additional_part.nTimeLength;
-            break;
-        }
-        case LIVING_ECI:
-        {//居民楼
-            m_uLivingCell += pXDR->additional_part.nTimeLength;
-            break;
-        }
-        case BUSSINESS_ECI:
-        {//商业区
-            m_uBussinessCell += pXDR->additional_part.nTimeLength;
-            break;
-        }
-        case SCENIC_ECI:
-        {//风景区
-            m_uScenicCell += pXDR->additional_part.nTimeLength;
-            break;
-        }
-        case SUBWAY_ECI:
-        {//地铁
-            m_uSubwayCell += pXDR->additional_part.nTimeLength;
-            break;
-        }
-        case CITYROAD_ECI:
-        {//城区道路
-            m_uCityRoadCell += pXDR->additional_part.nTimeLength;
-            break;
-        }
-        case ROADHIGHSPEED_ECI:
-        {//城区道路
-            m_uRoadHighSpeedCell += pXDR->additional_part.nTimeLength;
-            break;
-        }
-        default:
+        if(pXDR->additional_part.cCellScenceProperties == i)
         {
+            m_uCustomScence[i] +=pXDR->additional_part.nTimeLength;
             break;
         }
     }
@@ -320,66 +292,76 @@ int XDRScenceGroup::SetAllProperties()
 int XDRScenceGroup::AnalysisScence()
 {
     unsigned int uFlag = m_uTotalTime * 80;
-    //高铁
-    if(m_uHighSpeedCell * 100 > uFlag 
-            && (childPro == OUTDOOR_QUICK || childPro == OUTDOOR_MID))
+    scPro = 0;
+    for(int i = 0;i < m_uCustomScenceSize;++i)
     {
-        //SetAllScenceProperties(ScenceProperties.HIGHSPEED_ECI);
-        scPro = HIGHSPEED_ECI;
-    }    
-    //居民区
-    else if(m_uLivingCell * 100 > uFlag 
-            && (ioPro == USER_INDOOR || childPro == OUTDOOR_SLOW))
-    {
-        //SetAllScenceProperties(ScenceProperties.LIVING_ECI);
-         scPro = LIVING_ECI;
+        if(m_uCustomScence[i] * 100 > uFlag
+           && GlobalConfiger::GetInstance()->GetUCustomScence()[i] & childPro)
+        {
+            scPro = i;
+            break;
+        }
     }
-    //商业区
-    else if(m_uBussinessCell * 100 > uFlag 
-            && (ioPro == USER_INDOOR || childPro == OUTDOOR_SLOW))
-    {
-        //SetAllScenceProperties(ScenceProperties.BUSSINESS_ECI);
-        scPro = BUSSINESS_ECI;
-    }
-    //风景区
-    else if(m_uScenicCell * 100 > uFlag 
-            && (ioPro == USER_INDOOR || childPro == OUTDOOR_SLOW))
-    {
-        //SetAllScenceProperties(ScenceProperties.SCENIC_ECI);
-        scPro = SCENIC_ECI;
-    }
-    //地铁
-    else if(m_uSubwayCell * 100 > uFlag)
-    {
-        //SetAllScenceProperties(ScenceProperties.SUBWAY_ECI);
-        scPro = SUBWAY_ECI;
-    }
-    //校园
-    else if(m_uSchoolCell * 100 > uFlag 
-       && (ioPro == USER_INDOOR || childPro == OUTDOOR_SLOW))
-    {
-        //SetAllScenceProperties(ScenceProperties.SCHOOL_ECI);
-        scPro = SCHOOL_ECI;
-    }
-    //城区道路
-    else if(m_uCityRoadCell * 100 > uFlag 
-       && (ioPro == USER_OUTDOOR))
-    {
-        //SetAllScenceProperties(ScenceProperties.SCHOOL_ECI);
-        scPro = CITYROAD_ECI;
-    }
-    //高速公路
-    else if(m_uRoadHighSpeedCell * 100 > uFlag 
-       && (childPro == OUTDOOR_QUICK || childPro == OUTDOOR_MID))
-    {
-        //SetAllScenceProperties(ScenceProperties.SCHOOL_ECI);
-        scPro = ROADHIGHSPEED_ECI;
-    }
-    else
-    {
-        //SetAllScenceProperties(ScenceProperties.UNKNOWN_ECI);
-        scPro = UNKNOWN_ECI;
-    }
+//    //高铁
+//    if(m_uHighSpeedCell * 100 > uFlag 
+//            && (childPro == OUTDOOR_QUICK || childPro == OUTDOOR_MID))
+//    {
+//        //SetAllScenceProperties(ScenceProperties.HIGHSPEED_ECI);
+//        scPro = HIGHSPEED_ECI;
+//    }    
+//    //居民区
+//    else if(m_uLivingCell * 100 > uFlag 
+//            && (ioPro == USER_INDOOR || childPro == OUTDOOR_SLOW))
+//    {
+//        //SetAllScenceProperties(ScenceProperties.LIVING_ECI);
+//         scPro = LIVING_ECI;
+//    }
+//    //商业区
+//    else if(m_uBussinessCell * 100 > uFlag 
+//            && (ioPro == USER_INDOOR || childPro == OUTDOOR_SLOW))
+//    {
+//        //SetAllScenceProperties(ScenceProperties.BUSSINESS_ECI);
+//        scPro = BUSSINESS_ECI;
+//    }
+//    //风景区
+//    else if(m_uScenicCell * 100 > uFlag 
+//            && (ioPro == USER_INDOOR || childPro == OUTDOOR_SLOW))
+//    {
+//        //SetAllScenceProperties(ScenceProperties.SCENIC_ECI);
+//        scPro = SCENIC_ECI;
+//    }
+//    //地铁
+//    else if(m_uSubwayCell * 100 > uFlag)
+//    {
+//        //SetAllScenceProperties(ScenceProperties.SUBWAY_ECI);
+//        scPro = SUBWAY_ECI;
+//    }
+//    //校园
+//    else if(m_uSchoolCell * 100 > uFlag 
+//       && (ioPro == USER_INDOOR || childPro == OUTDOOR_SLOW))
+//    {
+//        //SetAllScenceProperties(ScenceProperties.SCHOOL_ECI);
+//        scPro = SCHOOL_ECI;
+//    }
+//    //城区道路
+//    else if(m_uCityRoadCell * 100 > uFlag 
+//       && (ioPro == USER_OUTDOOR))
+//    {
+//        //SetAllScenceProperties(ScenceProperties.SCHOOL_ECI);
+//        scPro = CITYROAD_ECI;
+//    }
+//    //高速公路
+//    else if(m_uRoadHighSpeedCell * 100 > uFlag 
+//       && (childPro == OUTDOOR_QUICK || childPro == OUTDOOR_MID))
+//    {
+//        //SetAllScenceProperties(ScenceProperties.SCHOOL_ECI);
+//        scPro = ROADHIGHSPEED_ECI;
+//    }
+//    else
+//    {
+//        //SetAllScenceProperties(ScenceProperties.UNKNOWN_ECI);
+//        scPro = UNKNOWN_ECI;
+//    }
     return 0;
 }
 void XDRScenceGroup::setSize(unsigned int size)

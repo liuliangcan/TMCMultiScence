@@ -86,7 +86,7 @@ private:
     float nSpeed;
     CoveringProperties ioPro;           //室内外属性
     CoveringChildProperties childPro;   //子属性
-    ScenceProperties scPro;             //场景属性
+    unsigned int scPro;             //场景属性
     
     CoveringChildProperties m_lastChildPro; //上一组的子属性，用来进行速度修正，如果本组速度小于上一组，则修正为上一组的速度。（这里就开始修正是因为：如果延后修正，需要重新计算场景）
     unsigned long long m_lastLaterTime;//上一组最后一条xdr的时间组号，用来进行速度修正
@@ -105,23 +105,25 @@ private:
     
     unsigned int m_uCellOutdoor; //本组无室分小区业务时长
     
-    unsigned int m_uUnknownCell; //本组未知场景小区业务时长
+ //   unsigned int m_uUnknownCell; //本组未知场景小区业务时长
     
-    unsigned int m_uSchoolCell; //本组校园小区业务时长
-    
-    unsigned int m_uLivingCell; //本组居民楼场景小区业务时长
-    
-    unsigned int m_uBussinessCell; //本组商业区场景小区业务时长
-    
-    unsigned int m_uScenicCell; //本组风景区场景小区业务时长
-    
-    unsigned int m_uSubwayCell; //本组地铁场景小区业务时长
-    
-    unsigned int m_uCityRoadCell; //本组城区道路场景小区业务时长
-    
-    unsigned int m_uRoadHighSpeedCell; //本组高速公路场景小区业务时长
-    
-    unsigned int m_uHighSpeedCell; //本组高铁场景小区业务时长
+//    unsigned int m_uSchoolCell; //本组校园小区业务时长
+//    
+//    unsigned int m_uLivingCell; //本组居民楼场景小区业务时长
+//    
+//    unsigned int m_uBussinessCell; //本组商业区场景小区业务时长
+//    
+//    unsigned int m_uScenicCell; //本组风景区场景小区业务时长
+//    
+//    unsigned int m_uSubwayCell; //本组地铁场景小区业务时长
+//    
+//    unsigned int m_uCityRoadCell; //本组城区道路场景小区业务时长
+//    
+//    unsigned int m_uRoadHighSpeedCell; //本组高速公路场景小区业务时长
+//    
+//    unsigned int m_uHighSpeedCell; //本组高铁场景小区业务时长
+    unsigned int * m_uCustomScence;//本组自定义场景小区业务时长
+    unsigned int  m_uCustomScenceSize;//本组自定义场景小区业务时长
 };
 
 #endif	/* XDRSCENCEGROUP_H */

@@ -40,6 +40,8 @@ public:
     void GetListInputDir(std::list<std::string>& listInputDir) const;
     void SetOutputDir(std::string outputDir);
     std::string GetOutputDir() const;
+    unsigned int GetUCustomScenceSize() const;
+    unsigned int* GetUCustomScence() const;
 private:
     //输入目录
     std::list<std::string> m_listInputDir;

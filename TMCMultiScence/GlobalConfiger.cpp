@@ -10,6 +10,7 @@
 #include "tools/log.h"
 #include "tools/dir_info.h"
 #include "tools/toolkit.h"
+#include <map>
 
 GlobalConfiger* GlobalConfiger::m_instance_gc = NULL;
 GlobalConfiger::GlobalConfiger()
@@ -59,6 +60,52 @@ int GlobalConfiger::Init(char * confXML)
     if (cmxml.FindChildElem("MultiScenceThreadNum"))
     {
         m_iThreadNum = atoi(cmxml.GetChildAttrib("name").c_str());        
+    }
+    cmxml.ResetMainPos();
+    std::map<int,int> m ;
+    std::map<int,int>::iterator it_m;
+    m.clear();    
+    while (cmxml.FindChildElem("MultiScenceCustomScence"))
+    {
+        int t = atoi(cmxml.GetChildAttrib("name").c_str());     
+        if(t > 0) 
+        {
+            it_m = m.find(t);
+            if(it_m == m.end())
+            {
+                int t2 = atoi(cmxml.GetChildAttrib("conditions").c_str());
+                if(t2 < 64)
+                {
+                    m[t] =t2; 
+                }
+                else
+                {
+                    fprintf(stderr,"多场景自定义部分配置错误，请检查,name=%d,conditions=%d\n", t, t2);
+                    return -1;
+                }
+            }
+            else
+            {
+                fprintf(stderr,"多场景自定义部分配置错误，请检查,name=%d\n", t);
+                return -1;
+            }
+        }
+        else 
+        {fprintf(stderr,"多场景自定义部分配置错误，请检查,name=%d\n", t);return -1;}
+    }
+    std::map<int,int>::iterator it_m_end = m.end() ;
+    m_uCustomScenceSize = m.size() + 1;
+    m_uCustomScence = new unsigned int[m_uCustomScenceSize];
+    m_uCustomScence[0] = 0;
+    int i = 1;
+    for( it_m = m.begin();it_m != it_m_end; ++it_m,++i)
+    {
+        if(it_m->first != i)
+        {
+            fprintf(stderr,"多场景自定义部分配置错误:不连续，请配置1-n连续的不重复值，请检查\n");
+            return -1;
+        }
+        m_uCustomScence[i] = it_m->second;
     }
     
     int ret =check();
@@ -173,6 +220,16 @@ void GlobalConfiger::SetOutputDir(std::string outputDir)
 std::string GlobalConfiger::GetOutputDir() const
 {
     return m_outputDir;
+}
+
+unsigned int GlobalConfiger::GetUCustomScenceSize() const
+{
+    return m_uCustomScenceSize;
+}
+
+unsigned int* GlobalConfiger::GetUCustomScence() const
+{
+    return m_uCustomScence;
 }
 
 
