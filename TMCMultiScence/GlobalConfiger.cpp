@@ -52,7 +52,7 @@ int GlobalConfiger::Init(char * confXML)
         m_logDir = cmxml.GetChildAttrib("name");
     }
     cmxml.ResetMainPos();
-    if (cmxml.FindChildElem("MultiScencebackupDir"))
+    if (cmxml.FindChildElem("MultiScenceBackupDir"))
     {
         m_backupDir = cmxml.GetChildAttrib("name");
     }
