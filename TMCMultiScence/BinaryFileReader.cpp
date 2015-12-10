@@ -68,6 +68,10 @@ int BinaryFileReader::file2struct(st_XDR_INFO* &pXDR)
         LOG_ERROR("[BinaryFileReader]文件格式错误%s[%lld byte]", srcFilename.c_str(), m_file_size);
         //将源文件转移
         BackFile();
+    if(infile.is_open())
+    {
+        infile.close();
+    }
         return -1;
     }
     m_XDRNum = (m_file_size) / struct_size;
@@ -90,6 +94,10 @@ int BinaryFileReader::file2struct(st_XDR_INFO* &pXDR)
             LOG_ERROR("[BinaryFileReader]内存申请错误%s[%lld byte]", srcFilename.c_str(), m_file_size);
             m_iAvailableXDRNum = 0;
             this->pXDR = pXDR;
+    if(infile.is_open())
+    {
+        infile.close();
+    }
             return -1;
         }
         this->pXDR = pXDR;
