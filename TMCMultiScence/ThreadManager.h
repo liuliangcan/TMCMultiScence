@@ -55,7 +55,7 @@ private:
     //读取文件列表
     int GetFileList();
     int GetChildDir(char * dir, bool bFirstTimeFlag);
-    
+    int SpliteLogFile();
     //单例
     static ThreadManager *m_instance_tm;
 };

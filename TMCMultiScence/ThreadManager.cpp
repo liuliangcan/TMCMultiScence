@@ -195,6 +195,8 @@ THREAD_RETURN THREAD_PROC FileHandleProc(THREAD_PARAM param)
                     if(endfileout.is_open())endfileout.close();
                     
                     hasWriteEndFile = true;
+                    
+                    pParam->SpliteLogFile();
                 }
             }
             CPO_Leave(pParam->m_cpo_qFilelist);
@@ -225,4 +227,25 @@ THREAD_RETURN THREAD_PROC FileHandleProc(THREAD_PARAM param)
     }
     
     return (THREAD_RETURN)0;
+}
+
+
+int ThreadManager::SpliteLogFile()
+{
+    char logfile[PATH_MAX] = "";
+    char dstfile[PATH_MAX] = "";
+    sprintf(logfile, "%s/AssocMultiScence.acess", GlobalConfiger::GetInstance()->GetLogDir().c_str());
+    time_t now = time(0);
+    int dnow = now;
+    tm tm1 = {0};
+    localtime_r(&now, &tm1);
+    char day[16];
+    strftime(day, sizeof(day) ,"%Y%m%d", &tm1);
+    sprintf(dstfile, "%s/AssocMultiScence_%s_%d.acess", GlobalConfiger::GetInstance()->GetLogDir().c_str(), day, dnow);
+    rename(logfile, dstfile);    
+    
+    sprintf(logfile, "%s/AssocMultiScence.error", GlobalConfiger::GetInstance()->GetLogDir().c_str());
+    sprintf(dstfile, "%s/AssocMultiScence_%s_%d.error", GlobalConfiger::GetInstance()->GetLogDir().c_str(), day, dnow);
+    rename(logfile, dstfile);  
+    return 0;
 }
